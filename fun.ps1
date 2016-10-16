@@ -1,0 +1,1 @@
+Get-Emoji -Name 'Flag for Argentina'
