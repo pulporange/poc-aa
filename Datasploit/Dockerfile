@@ -1,0 +1,42 @@
+FROM ubuntu:16.04
+
+# installing dependencies
+RUN apt-get update && apt-get install -y python-pip \
+			python3-lxml libxml2-dev libxslt-dev python-dev git wget
+
+# installing lxml 
+RUN apt-get build-dep python3-lxml -y && pip install lxml
+
+# key for mongodb
+RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 0C49F3730359A14518585931BC711F9BA15703C6
+
+# key for rabbitmq
+RUN wget -O- https://www.rabbitmq.com/rabbitmq-release-signing-key.asc | apt-key add -
+
+# adding mongo to apt source list
+RUN echo "deb http://repo.mongodb.org/apt/ubuntu/dists/xenial/mongodb-org/3.4/multiverse" |  tee /etc/apt/sources.list.d/mongodb-org-3.4.list
+
+# adding rabbitmq for source list
+RUN echo 'deb http://www.rabbitmq.com/debian/ testing main' | tee /etc/apt/sources.list.d/rabbitmq.list
+
+RUN apt-get update && apt-get install -y mongodb-org rabbitmq-server
+
+WORKDIR /opt
+
+# cloning the datasploit git repo
+RUN git clone https://github.com/upgoingstar/datasploit.git
+
+WORKDIR /opt/datasploit
+
+# installing python dependencies
+RUN pip install --upgrade pip && pip install -r requirements.txt
+
+# moving the configurations file for API (as per datasploit docs)
+RUN mv config_sample.py config.py
+
+RUN mkdir /opt/datasploit/datasploitDb
+
+RUN apt-get remove git wget -y
+
+# exposed the port 7200 to the host system
+EXPOSE 7200
