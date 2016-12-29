@@ -7,20 +7,6 @@ RUN apt-get update && apt-get install -y python-pip \
 # installing lxml 
 RUN apt-get build-dep python3-lxml -y && pip install lxml
 
-# key for mongodb
-RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 0C49F3730359A14518585931BC711F9BA15703C6
-
-# key for rabbitmq
-RUN wget -O- https://www.rabbitmq.com/rabbitmq-release-signing-key.asc | apt-key add -
-
-# adding mongo to apt source list
-RUN echo "deb http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.4 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-3.4.list
-
-# adding rabbitmq for source list
-RUN echo "deb http://www.rabbitmq.com/debian/ testing main" | tee /etc/apt/sources.list.d/rabbitmq.list
-
-RUN apt-get update && apt-get install -y mongodb-org rabbitmq-server
-
 WORKDIR /opt
 
 # cloning the datasploit git repo
