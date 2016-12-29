@@ -14,10 +14,10 @@ RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 0C49F3730359A14
 RUN wget -O- https://www.rabbitmq.com/rabbitmq-release-signing-key.asc | apt-key add -
 
 # adding mongo to apt source list
-RUN echo "deb http://repo.mongodb.org/apt/ubuntu/dists/xenial/mongodb-org/3.4/multiverse" |  tee /etc/apt/sources.list.d/mongodb-org-3.4.list
+RUN echo "deb http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.4 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-3.4.list
 
 # adding rabbitmq for source list
-RUN echo 'deb http://www.rabbitmq.com/debian/ testing main' | tee /etc/apt/sources.list.d/rabbitmq.list
+RUN echo "deb http://www.rabbitmq.com/debian/ testing main" | tee /etc/apt/sources.list.d/rabbitmq.list
 
 RUN apt-get update && apt-get install -y mongodb-org rabbitmq-server
 
@@ -38,5 +38,5 @@ RUN mkdir /opt/datasploit/datasploitDb
 
 RUN apt-get remove git wget -y
 
-# exposed the port 7200 to the host system
-EXPOSE 7200
+# exposed the port 8000 to the host system
+EXPOSE 8000
