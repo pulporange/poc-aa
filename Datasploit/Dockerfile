@@ -7,6 +7,10 @@ RUN apt-get update && apt-get install -y python-pip \
 # installing lxml 
 RUN apt-get build-dep python3-lxml -y && pip install lxml
 
+# installing vim
+RUN apt-get install vim -y
+
+
 WORKDIR /opt
 
 # cloning the datasploit git repo
